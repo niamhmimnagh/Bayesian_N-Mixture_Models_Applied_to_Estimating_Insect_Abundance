@@ -1,4 +1,4 @@
-## Insect Populations Chapter 11 - Bayesian N-Mixture Models Applied to Estimating Insect Abundance 
+## Bayesian N-Mixture Models Applied to Estimating Insect Abundance 
 
 
 ### Case Study Files
