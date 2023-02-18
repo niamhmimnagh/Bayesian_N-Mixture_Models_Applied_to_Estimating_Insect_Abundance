@@ -164,27 +164,25 @@ for(k in 1:K){
 }
 
 ################################################################################
-## JAGS code
-model_code = 
-  '
+## JAGS code - MNM model
+model_code = '
 model {
+# Poisson Hurdle Abundance
   for(s in 1:S){
-    
     for (i in 1:R) { 
       for(k in 1:K){
-        x[i,s,k] ~ dbern(1-theta)
+        x[i,s,k] ~ dbern(1-theta)                       # Occupancy component
         log(lambda[i,s,k]) <- a[i,s,k] 
-        count[i,s,k] ~ dpois(lambda[i,s,k])T(1,)  
+        count[i,s,k] ~ dpois(lambda[i,s,k])T(1,)        # Count component       
         N[i,s,k]<-ifelse(x[i,s,k]==0, 0, count[i,s,k])
       }
     }
   }
   
-  # Loop over time points
   for(i in 1:R){
     for(s in 1:S){
       for(k in 1:K){           
-        mu[i,s,k]<-beta[1,s]*lat[i]+beta[2,s]*long[i]+beta[3,s]*lat[i]*long[i]+beta[4,s]*day[i,k]
+        mu[i,s,k]<-beta[1,s]*lat[i]+beta[2,s]*long[i]+beta[3,s]*lat[i]*long[i]+beta[4,s]*day[i,k] 
         for(t in 1:T){   
           Y[i,t,s,k] ~ dbin(probability[i,t,s,k], N[i,s,k])
           logit(probability[i,t,s,k]) <- gamma[i,t,k,s]
